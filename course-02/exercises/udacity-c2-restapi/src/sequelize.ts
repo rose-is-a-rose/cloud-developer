@@ -4,8 +4,6 @@ import { config } from './config/config';
 
 const postgres = config.postgress;
 
-console.log(postgres)
-
 // Instantiate new Sequelize instance!
 export const sequelize = new Sequelize({
   "username": postgres.username,
