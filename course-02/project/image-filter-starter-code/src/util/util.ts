@@ -1,5 +1,5 @@
 import fs from 'fs';
-import Jimp = require('jimp');
+import Jimp from 'jimp';
 
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
@@ -31,4 +31,22 @@ export async function deleteLocalFiles(files:Array<string>){
     for( let file of files) {
         fs.unlinkSync(file);
     }
+}
+
+// deleteLocalFiles
+// helper function to delete files on the local disk
+// useful to cleanup after tasks
+// INPUTS
+//    files: Array<string> an array of absolute paths to files
+export async function deleteTempLocalFiles(){
+    fs.readdir(__dirname + '/tmp/', function (err, files) {
+        //handling error
+        if (err) {
+            console.log(err);
+            return;
+        } 
+        for( let file of files) {
+            fs.unlinkSync(__dirname + '/tmp/'+file);
+        }
+    });
 }
