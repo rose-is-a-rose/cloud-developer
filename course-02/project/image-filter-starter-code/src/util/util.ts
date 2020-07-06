@@ -50,3 +50,12 @@ export async function deleteTempLocalFiles() {
         }
     });
 }
+
+export async function doesFileExist(urlToFile: string) {
+    const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+    const xhr: XMLHttpRequest = new XMLHttpRequest();
+    xhr.open('HEAD', urlToFile, false);
+    xhr.send();
+
+    return xhr.status !== 404;
+}

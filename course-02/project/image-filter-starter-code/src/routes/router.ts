@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { filterImageFromURL, deleteLocalFiles } from '../util/util';
+import { filterImageFromURL, doesFileExist } from '../util/util';
 
 const router: Router = Router();
 
@@ -18,10 +18,14 @@ router.get('/filteredimage', async (req: Request, res: Response) => {
     if (!image_url) {
         return res.status(400).send({ message: '`image_url` is required' });
     }
-    const filteredpath: string = await filterImageFromURL(image_url);
+    const fileExists: boolean = await doesFileExist(image_url);
 
-    res.sendFile(filteredpath);
-    // deleteLocalFiles([filteredpath]);
+    if (!fileExists) {
+        return res.status(404).send({ message: 'image_url is invalid' });
+    } else {
+        const filteredpath: string = await filterImageFromURL(image_url);
+        res.sendFile(filteredpath);
+    }
 });
 
 export const IndexRouter: Router = router;
